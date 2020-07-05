@@ -31,12 +31,14 @@ function crudAdminPage() {
   if (isset($_POST['delall'])) {
     $wpdb->query("DELETE FROM $table_name");
     $wpdb->query("ALTER TABLE $table_name AUTO_INCREMENT = 1");
+    echo '<script>alert("All entries deleted")</script>';
     echo "<script>location.replace('admin.php?page=BookLoop_plug_2/crud.php');</script>";
   }
   if (isset($_POST['newsubmit'])) {
     $name = $_POST['newname'];
     $email = $_POST['newemail'];
     $wpdb->query("INSERT INTO $table_name(name,email) VALUES('$name','$email')");
+    echo '<script>alert("New entry added")</script>';
     echo "<script>location.replace('admin.php?page=BookLoop_plug_2/crud.php');</script>";
   }
   if (isset($_POST['uptsubmit'])) {
@@ -44,11 +46,13 @@ function crudAdminPage() {
     $name = $_POST['uptname'];
     $email = $_POST['uptemail'];
     $wpdb->query("UPDATE $table_name SET name='$name',email='$email' WHERE user_id='$id'");
+    echo '<script>alert("Entry updated")</script>';
     echo "<script>location.replace('admin.php?page=BookLoop_plug_2/crud.php');</script>";
   }
   if (isset($_GET['del'])) {
     $del_id = $_GET['del'];
     $wpdb->query("DELETE FROM $table_name WHERE user_id='$del_id'");
+    echo '<script>alert("Entry deleted")</script>';
     echo "<script>location.replace('admin.php?page=BookLoop_plug_2/crud.php');</script>";
   }
   ?>
@@ -67,6 +71,9 @@ function crudAdminPage() {
       <tbody>
         <form action="" method="post">
           <tr>
+            <td width="25%"></td>
+            <td width="25%"></td>
+            <td width="25%"></td>
             <td> <button id="delall" name="delall" type="submit">DELETE ALL ENTRIES</button> </td>
           </tr>
           <tr>
@@ -102,6 +109,7 @@ function crudAdminPage() {
           $email = $print->email;
         }
         echo "
+        <h2> Update entry: </h2>
         <table class='wp-list-table widefat striped'>
           <thead>
             <tr>
